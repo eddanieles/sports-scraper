@@ -2,7 +2,7 @@
   <div>
     <b-tabs vertical>
       <b-tab title="List">
-        <div v-for="year in this.$store.state.nflMvps" :key="year.year + year.player">
+        <div v-for="year in this.nflMvps" :key="year.year + year.player">
           <p>{{year.year}} | {{year.player}} | {{year.position}} | {{year.team}}</p>
           <hr>
         </div>
@@ -45,6 +45,7 @@
 
 <script>
 import _ from 'underscore'
+import { mapState } from 'vuex'
 
 export default {
   data() {
@@ -54,12 +55,15 @@ export default {
       positions: []
     }
   },
+  computed: mapState({
+    nflMvps: state => state.nflMvps
+  }),
   methods: {
     getByPosition() {
       this.positions = [];
       let that = this;
       let justPositions = [];
-      this.$store.state.nflMvps.forEach(obj => {
+      this.nflMvps.forEach(obj => {
         if (_.indexOf(justPositions, obj.position) === -1) {
           justPositions.push(obj.position);
           that.positions.push({
@@ -82,7 +86,7 @@ export default {
       this.teams = [];
       let that = this;
       let justTeamNames = [];
-      this.$store.state.nflMvps.forEach(obj => {
+      this.nflMvps.forEach(obj => {
         if (_.indexOf(justTeamNames, obj.team) === -1) {
           justTeamNames.push(obj.team);
           that.teams.push({
@@ -105,7 +109,7 @@ export default {
       this.players = [];
       let that = this;
       let justPlayerNames = [];
-      this.$store.state.nflMvps.forEach(obj => {
+      this.nflMvps.forEach(obj => {
         if (_.indexOf(justPlayerNames, obj.player) === -1) {
           justPlayerNames.push(obj.player);
           that.players.push({
