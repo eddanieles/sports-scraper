@@ -31,7 +31,14 @@
           <hr>
         </div>
       </b-tab>
-      <b-tab title="Position"><p>I'm a disabled tab!</p></b-tab>
+      <b-tab title="Position" @click="getByPosition()">
+        <div v-for="position in this.positions" :key="position.position">
+          <p>{{position.position}}</p>
+          <h3>Count: {{position.count}}</h3>
+          <p>{{position.players}}</p>
+          <hr>
+        </div>
+      </b-tab>
     </b-tabs>
   </div>
 </template>
@@ -43,14 +50,38 @@ export default {
   data() {
     return {
       teams: [],
-      players: []
+      players: [],
+      positions: []
     }
   },
   methods: {
+    getByPosition() {
+      this.positions = [];
+      let that = this;
+      let justPositions = [];
+      this.$store.state.nflMvps.forEach(obj => {
+        if (_.indexOf(justPositions, obj.position) === -1) {
+          justPositions.push(obj.position);
+          that.positions.push({
+            position: obj.position, 
+            count: 1, 
+            players: [{year: obj.year, player: obj.player, team: obj.team}]
+          });
+        } else {
+          let index = _.findIndex(that.positions, function(o) {
+            return o.position === obj.position
+          })
+          that.positions[index].count++;
+          that.positions[index].players.push({year: obj.year, player: obj.player, team: obj.team})
+        }
+      })
+
+      that.positions = _.sortBy(that.positions, ['count']).reverse();
+    },
     getByTeam() {
       this.teams = [];
       let that = this;
-      let justTeamNames = []
+      let justTeamNames = [];
       this.$store.state.nflMvps.forEach(obj => {
         if (_.indexOf(justTeamNames, obj.team) === -1) {
           justTeamNames.push(obj.team);
@@ -73,7 +104,7 @@ export default {
     getByPlayer() {
       this.players = [];
       let that = this;
-      let justPlayerNames = []
+      let justPlayerNames = [];
       this.$store.state.nflMvps.forEach(obj => {
         if (_.indexOf(justPlayerNames, obj.player) === -1) {
           justPlayerNames.push(obj.player);
