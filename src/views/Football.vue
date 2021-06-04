@@ -1,29 +1,38 @@
 <template>
-  <div class="about">
-    <div>
-      <ul>
-        <li>As List</li>
-        <li @click="getByTeam()">By Team</li>
-        <li @click="getByPlayer()">By Player</li>
-        <li @click="getByPosition()">By Position</li>
-      </ul>
-    </div>
-    <div v-for="player in this.players" :key="player.player">
-      <p>{{player.player}} | {{player.position}}</p>
-      <h3>Count: {{player.count}}</h3>
-      <p>{{player.years}}</p>
-      <hr>
-    </div>
-    <!-- <div v-for="team in this.teams" :key="team.teamName">
-      <p>{{team.teamName}}</p>
-      <h3>Count: {{team.count}}</h3>
-      <ul>
-        <li v-for="player in team.players" :key="player.year">
-          {{player.year}}: {{player.player}} - {{player.position}}
-        </li>
-      </ul>
-      <hr>
-    </div> -->
+  <div>
+    <b-tabs vertical>
+      <b-tab title="List">
+        <div v-for="year in this.$store.state.nflMvps" :key="year.year + year.player">
+          <p>{{year.year}} | {{year.player}} | {{year.position}} | {{year.team}}</p>
+          <hr>
+        </div>
+      </b-tab>
+      <b-tab title="Team" @click="getByTeam()">
+        <div v-for="team in this.teams" :key="team.teamName">
+          <p>{{team.teamName}}</p>
+          <h3>Count: {{team.count}}</h3>
+          <ul>
+            <li v-for="player in team.players" :key="player.year">
+              {{player.year}}: {{player.player}} - {{player.position}}
+            </li>
+          </ul>
+          <hr>
+        </div>
+      </b-tab>
+      <b-tab title="Player" @click="getByPlayer()">
+        <div v-for="player in this.players" :key="player.player">
+          <p>{{player.player}} | {{player.position}}</p>
+          <h3>Count: {{player.count}}</h3>
+          <ul>
+            <li v-for="year in player.years" :key="year.year">
+              {{year.year}}: {{year.team}}
+            </li>
+          </ul>
+          <hr>
+        </div>
+      </b-tab>
+      <b-tab title="Position"><p>I'm a disabled tab!</p></b-tab>
+    </b-tabs>
   </div>
 </template>
 
@@ -39,6 +48,7 @@ export default {
   },
   methods: {
     getByTeam() {
+      this.teams = [];
       let that = this;
       let justTeamNames = []
       this.$store.state.nflMvps.forEach(obj => {
@@ -61,6 +71,7 @@ export default {
       that.teams = _.sortBy(that.teams, ['count']).reverse();
     },
     getByPlayer() {
+      this.players = [];
       let that = this;
       let justPlayerNames = []
       this.$store.state.nflMvps.forEach(obj => {
