@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Football from '../views/Football.vue'
+import Basketball from '../views/Basketball'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/football',
     name: 'Football',
     component: Football
+  },
+  {
+    path: '/basketball',
+    name: 'Basketball',
+    component: Basketball
   }
 ]
 
