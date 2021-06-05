@@ -7,8 +7,8 @@
           <hr>
         </div>
       </b-tab>
-      <b-tab title="Team" @click="getByTeam()">
-        <div v-for="team in this.teams" :key="team.teamName">
+      <b-tab title="Team">
+        <div v-for="team in getByTeam('nfl')" :key="team.teamName">
           <p>{{team.teamName}}</p>
           <h3>Count: {{team.count}}</h3>
           <ul>
@@ -45,19 +45,21 @@
 
 <script>
 import _ from 'underscore'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
-      teams: [],
       players: [],
       positions: []
     }
   },
-  computed: mapState({
-    nflMvps: state => state.nflMvps
-  }),
+  computed: {
+    ...mapGetters(['getByTeam']),
+    ...mapState({
+      nflMvps: state => state.nflMvps
+    })
+  },
   methods: {
     getByPosition() {
       this.positions = [];
@@ -81,29 +83,6 @@ export default {
       })
 
       that.positions = _.sortBy(that.positions, ['count']).reverse();
-    },
-    getByTeam() {
-      this.teams = [];
-      let that = this;
-      let justTeamNames = [];
-      this.nflMvps.forEach(obj => {
-        if (_.indexOf(justTeamNames, obj.team) === -1) {
-          justTeamNames.push(obj.team);
-          that.teams.push({
-            teamName: obj.team, 
-            count: 1, 
-            players: [{year: obj.year, player: obj.player, position: obj.position}]
-          });
-        } else {
-          let index = _.findIndex(that.teams, function(o) {
-            return o.teamName === obj.team
-          })
-          that.teams[index].count++;
-          that.teams[index].players.push({year: obj.year, player: obj.player, position: obj.position})
-        }
-      })
-
-      that.teams = _.sortBy(that.teams, ['count']).reverse();
     },
     getByPlayer() {
       this.players = [];

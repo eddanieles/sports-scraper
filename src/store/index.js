@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import request from 'request'
 import cheerio from 'cheerio'
+import _ from 'underscore'
 
 Vue.use(Vuex)
 
@@ -85,7 +86,39 @@ export default new Vuex.Store({
     }
   },
   modules: {
+  },
+  getters: {
+    centers: state => {
+      return state.nbaMvps.filter(mvp => mvp.position === "C")
+    },
+    getByTeam:  state => league => {
+      var mvps;
+      let teams = [];
+      let justTeamNames = [];
+
+      if (league === "nfl") {
+        mvps = state.nflMvps
+      }
+
+      mvps.forEach(obj => {
+        if (_.indexOf(justTeamNames, obj.team) === -1) {
+          justTeamNames.push(obj.team);
+          teams.push({
+            teamName: obj.team, 
+            count: 1, 
+            players: [{year: obj.year, player: obj.player, position: obj.position}]
+          });
+        } else {
+          let index = _.findIndex(teams, function(o) {
+            return o.teamName === obj.team
+          })
+          teams[index].count++;
+          teams[index].players.push({year: obj.year, player: obj.player, position: obj.position})
+        }
+      })
+
+      teams = _.sortBy(teams, ['count']).reverse();
+      return teams;
+    } 
   }
 })
-
-//*[@id="my-players-table"]/div[1]/div/table/tbody/tr[3]

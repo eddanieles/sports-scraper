@@ -2,18 +2,24 @@
   <div>
       <h1>Basketball</h1>
       <div>
-          {{this.nbaMvps}}
+          {{centers}}
+      </div>
+      <div>
+          {{nbaMvps}}
       </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
-    computed: mapState({
-        nbaMvps: state => state.nbaMvps
-    }),
+    computed: {
+        ...mapState({
+            nbaMvps: state => state.nbaMvps
+        }),
+        ...mapGetters(['centers'])
+    },
     created() {
         this.$store.dispatch('getNbaMvps')
     }
