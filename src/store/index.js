@@ -97,7 +97,9 @@ export default new Vuex.Store({
       let justTeamNames = [];
 
       if (league === "nfl") {
-        mvps = state.nflMvps
+        mvps = state.nflMvps;
+      } else if (league === "nba") {
+        mvps = state.nbaMvps;
       }
 
       mvps.forEach(obj => {

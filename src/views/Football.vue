@@ -1,23 +1,14 @@
 <template>
   <div>
     <b-tabs vertical>
-      <b-tab title="List">
+      <b-tab title="Year">
         <div v-for="year in this.nflMvps" :key="year.year + year.player">
           <p>{{year.year}} | {{year.player}} | {{year.position}} | {{year.team}}</p>
           <hr>
         </div>
       </b-tab>
       <b-tab title="Team">
-        <div v-for="team in getByTeam('nfl')" :key="team.teamName">
-          <p>{{team.teamName}}</p>
-          <h3>Count: {{team.count}}</h3>
-          <ul>
-            <li v-for="player in team.players" :key="player.year">
-              {{player.year}}: {{player.player}} - {{player.position}}
-            </li>
-          </ul>
-          <hr>
-        </div>
+        <team-card v-for="team in getByTeam('nfl', 'butt')" :key="team.teamName" :team="team"/>
       </b-tab>
       <b-tab title="Player" @click="getByPlayer()">
         <div v-for="player in this.players" :key="player.player">
@@ -46,8 +37,10 @@
 <script>
 import _ from 'underscore'
 import { mapState, mapGetters } from 'vuex'
+import TeamCard from '../components/TeamCard.vue'
 
 export default {
+  components: { TeamCard },
   data() {
     return {
       players: [],
