@@ -12,9 +12,6 @@ export default {
     components: { TeamCard },
     computed: {
         ...mapGetters(['getByTeam'])
-    },
-    beforeCreate() {
-        console.log(this.$route.params.league)
     }
 }
 </script>
