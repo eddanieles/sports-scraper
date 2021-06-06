@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Football from '../views/Football.vue'
 import Basketball from '../views/Basketball'
+import Team from '../views/Team'
 
 Vue.use(VueRouter)
 
@@ -26,9 +27,15 @@ const routes = [
     component: Football
   },
   {
-    path: '/basketball',
+    path: '/:league',
     name: 'Basketball',
-    component: Basketball
+    component: Basketball,
+    children: [
+      {
+        path: 'team',
+        component: Team
+      }
+    ]
   }
 ]
 

@@ -1,5 +1,12 @@
 <template>
   <div>
+      <b-container>
+            <b-row no-gutters>
+                <b-col no-gutters><side-menu /></b-col>
+                <b-col cols="9"><router-view /></b-col>
+            </b-row>
+      </b-container>
+      
     <b-tabs vertical>
         <b-tab title="Year">
             <div v-for="year in nbaMvps" :key="year.year + year.player">
@@ -22,10 +29,11 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import SideMenu from '../components/SideMenu.vue'
 import TeamCard from '../components/TeamCard.vue'
 
 export default {
-    components: { TeamCard },
+    components: { TeamCard, SideMenu },
     computed: {
         ...mapState({
             nbaMvps: state => state.nbaMvps

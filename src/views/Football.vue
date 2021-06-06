@@ -2,7 +2,7 @@
   <div>
     <b-tabs vertical>
       <b-tab title="Year">
-        <div v-for="year in this.nflMvps" :key="year.year + year.player">
+        <div v-for="year in nflMvps" :key="year.year + year.player">
           <p>{{year.year}} | {{year.player}} | {{year.position}} | {{year.team}}</p>
           <hr>
         </div>
