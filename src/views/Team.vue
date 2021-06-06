@@ -1,6 +1,6 @@
 <template>
   <div>
-      <team-card v-for="team in getByTeam('nba', 'butt')" :key="team.teamName" :team="team"/>
+      <team-card v-for="team in getByTeam(_self.$route.params.league, 'butt')" :key="team.teamName" :team="team"/>
   </div>
 </template>
 
