@@ -122,6 +122,36 @@ export default new Vuex.Store({
       teams = _.sortBy(teams, ['count']).reverse();
       return teams;
     },
+    getByPosition:  state => league => {
+      var mvps;
+      let positions = [];
+      let justPositions = [];
+
+      if (league === "nfl") {
+        mvps = state.nflMvps;
+      } else if (league === "nba") {
+        mvps = state.nbaMvps;
+      }
+
+      mvps.forEach(obj => {
+        if (_.indexOf(justPositions, obj.position) === -1) {
+          justPositions.push(obj.position);
+          positions.push({
+            position: obj.position, 
+            count: 1, 
+            players: [{year: obj.year, player: obj.player, team: obj.team}]
+          });
+        } else {
+          let index = _.findIndex(positions, function(o) {
+            return o.position === obj.position
+          })
+          positions[index].count++;
+          positions[index].players.push({year: obj.year, player: obj.player, team: obj.team})
+        }
+      })
+
+      return positions = _.sortBy(positions, ['count']).reverse();
+    },
     getByPlayer: state => league => {
       var mvps;
       let players = [];

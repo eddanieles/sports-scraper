@@ -1,12 +1,18 @@
 <template>
   <div>
-      Position
+      <position-card v-for="position in getByPosition(this.$route.params.league)" :key="position.position" :position="position" />
   </div>
 </template>
 
 <script>
-export default {
+import PositionCard from '../components/PositionCard.vue'
+import { mapGetters } from 'vuex'
 
+export default {
+  components: { PositionCard },
+    computed: {
+        ...mapGetters(['getByPosition'])
+    }
 }
 </script>
 
