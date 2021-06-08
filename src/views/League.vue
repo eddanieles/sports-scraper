@@ -11,14 +11,12 @@
 
 <script>
 import SideMenu from '../components/SideMenu.vue'
-import { mapState } from 'vuex'
 
 export default {
   components: { SideMenu },
-  computed: {
-    ...mapState(['nhlMvps'])
-  },
   created() {
+    this.$store.dispatch('getNbaMvps');
+    this.$store.dispatch('getNflMvps');
     this.$store.dispatch('getNhlMvps');
   }
 }
