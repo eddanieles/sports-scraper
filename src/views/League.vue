@@ -3,7 +3,7 @@
       <b-container>
             <b-row no-gutters>
                 <b-col no-gutters><side-menu /></b-col>
-                <b-col cols="9"><router-view /></b-col>
+                <b-col cols="9"><router-view :key="$route.fullPath"/></b-col>
             </b-row>
         </b-container>
   </div>
