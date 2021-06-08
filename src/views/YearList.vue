@@ -17,7 +17,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['nbaMvps', 'nflMvps'])
+        ...mapState(['nbaMvps', 'nflMvps', 'nhlMvps'])
     },
     beforeMount() {
         let that = this;
@@ -25,6 +25,8 @@ export default {
             this.$store.state.nflMvps.map(mvp => that.mvps.push(mvp));
         } else if (this.$route.params.league === 'nba') {
             this.mvps = this.nbaMvps;
+        } else if (this.$route.params.league === 'nhl') {
+            this.mvps = this.nhlMvps;
         }
     }
 }

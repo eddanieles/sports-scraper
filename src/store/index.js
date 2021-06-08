@@ -10,11 +10,13 @@ Vue.use(Vuex)
 const corsBridge = 'https://cors.bridged.cc/';
 const nflMvpsUrl = 'https://www.pro-football-reference.com/awards/ap-nfl-mvp-award.htm';
 const nbaMvpsUrl = 'http://www.espn.com/nba/history/awards/_/id/33';
+const nhlMvpsUrl = 'https://www.nhl.com/news/nhl-hart-memorial-trophy-winners-complete-list/c-287743272';
 
 export default new Vuex.Store({
   state: {
     nflMvps: [],
-    nbaMvps: []
+    nbaMvps: [],
+    nhlMvps: []
   },
   plugins: [createPersistedState()],
   mutations: {
@@ -23,6 +25,9 @@ export default new Vuex.Store({
     },
     setNbaMvps(state, val) {
       state.nbaMvps = val
+    },
+    setNhlMvps(state, val) {
+      state.nhlMvps = val
     }
   },
   actions: {
@@ -45,6 +50,30 @@ export default new Vuex.Store({
 
               commit('setNflMvps', mvpArr);
           }
+      })
+    },
+    getNhlMvps({commit}) {
+      let mvpArr = [];
+
+      request(`${corsBridge}${nhlMvpsUrl}`, (error, response, html) => {
+        if(!error && response.statusCode === 200) {
+          const $ = cheerio.load(html);
+
+          let column = $('#content-wrap > div.template.template--fluid.section-news > div.template__container > div > article.article-item.article-item--expanded.article-item--active > div.article-item__bottom > div.article-item__body > ul')[0].children;
+
+          for (let i=0; i < column.length; i++) {
+            if (i%2 === 1) {
+              mvpArr.push({
+                year: column[i].children[0].children[0].data.match(/^[0-9]*/)[0].trim(),
+                // position: "in progress",
+                player: column[i].children[0].children.length > 2 ? column[i].children[0].children[1].children[0].data : column[i].children[0].children[0].data.match(/(?<=:)(.*?)(?=,)/)[0].trim(),
+                team: column[i].children[1].data
+              })
+            }
+          }
+
+          commit('setNhlMvps', mvpArr)
+        }
       })
     },
     getNbaMvps({commit}) {
@@ -100,6 +129,8 @@ export default new Vuex.Store({
         mvps = state.nflMvps;
       } else if (league === "nba") {
         mvps = state.nbaMvps;
+      } else if (league === "nhl") {
+        mvps = state.nhlMvps;
       }
 
       mvps.forEach(obj => {
@@ -131,6 +162,8 @@ export default new Vuex.Store({
         mvps = state.nflMvps;
       } else if (league === "nba") {
         mvps = state.nbaMvps;
+      } else if (league === "nhl") {
+        mvps = state.nhlMvps;
       }
 
       mvps.forEach(obj => {
@@ -161,6 +194,8 @@ export default new Vuex.Store({
         mvps = state.nflMvps;
       } else if (league === "nba") {
         mvps = state.nbaMvps;
+      } else if (league === "nhl") {
+        mvps = state.nhlMvps;
       }
 
       mvps.forEach(obj => {

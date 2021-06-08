@@ -4,7 +4,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> | 
       <router-link to="/nfl/year">NFL</router-link> | 
-      <router-link to="/nba/year">NBA</router-link>
+      <router-link to="/nba/year">NBA</router-link> |
+      <router-link to="/nhl/year">NHL</router-link>
     </div>
     <router-view/>
   </div>
