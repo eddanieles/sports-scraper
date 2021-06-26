@@ -1,12 +1,41 @@
 <template>
   <div>
-    <p>{{team.teamName}}</p>
-    <h3>Count: {{team.count}}</h3>
-    <ul>
+    <!-- <p>{{team.teamName}}</p>
+    <h3>Count: {{team.count}}</h3> -->
+    <!-- <ul>
     <li v-for="player in team.players" :key="player.year">
-        {{player.year}}: {{player.player}} - {{player.position}}
+        
     </li>
-    </ul>
+    </ul> -->
+
+
+    <v-list>
+        <v-list-group>
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>{{team.teamName}} | Count: {{team.count}}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <!-- <v-list-item
+            v-for="child in item.items"
+            :key="child.title"
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="child.title"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item> -->
+          <v-list-item
+            v-for="player in team.players"
+            :key="player.year"
+            no-action
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{player.year}}: {{player.player}} - {{player.position}}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+      </v-list>
     <hr>
   </div>
 </template>

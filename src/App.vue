@@ -5,11 +5,45 @@
       <router-link to="/about">About</router-link> | 
       <router-link to="/nfl/year">NFL</router-link> | 
       <router-link to="/nba/year">NBA</router-link> |
-      <router-link to="/nhl/year">NHL</router-link>
+      <router-link to="/nhl/year">NHL</router-link> | 
+      <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Dropdown
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in items"
+          :key="index"
+        >
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+  export default {
+    data: () => ({
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' },
+      ],
+      offset: true,
+    }),
+  }
+</script>
 
 <style>
 #app {
