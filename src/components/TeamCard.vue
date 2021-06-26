@@ -32,6 +32,8 @@
               <v-list-item-title>{{player.year}}: {{player.player}} - {{player.position}}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+
+          
         </v-list-group>
       </v-list>
     <hr>
