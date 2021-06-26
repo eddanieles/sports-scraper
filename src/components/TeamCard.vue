@@ -13,7 +13,13 @@
         <v-list-group>
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>{{team.teamName}} | Count: {{team.count}}</v-list-item-title>
+              <v-list-item-title>
+                {{team.teamName}}
+                <span v-for="n in team.count" :key="n + team.count">
+                  <v-icon>mdi-crown</v-icon>
+                </span>
+                <v-badge bottom :content="team.count"></v-badge>
+              </v-list-item-title>
             </v-list-item-content>
           </template>
 
@@ -35,7 +41,6 @@
 <script>
 export default {
     props: ['team']
-
 }
 </script>
 
