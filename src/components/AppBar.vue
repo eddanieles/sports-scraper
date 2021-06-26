@@ -1,21 +1,15 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-    <b-tabs 
-      active-nav-item-class="font-weight-bold text-uppercase text-danger"
-      active-tab-class="font-weight-bold text-success"
-      content-class="mt-3"
-      vertical>
-      <b-tab title="First" active><p>I'm the first tab</p></b-tab>
-      <b-tab title="Second"><p>I'm the second tab</p></b-tab>
-      <b-tab title="Disabled" disabled><p>I'm a disabled tab!</p></b-tab>
-    </b-tabs>
-
-    <v-menu offset-y>
+  <div>
+      <v-app-bar app color="deep-purple accent-4" dark>
+          <v-icon>mdi-arrow-top-left-bold-outline</v-icon>
+          <v-toolbar-title>Vuetify Scraper</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn text>Home</v-btn>
+            <v-btn text>Login</v-btn>
+            <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
-          color="primary"
-          dark
+            text
           v-bind="attrs"
           v-on="on"
         >
@@ -31,6 +25,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
+      </v-app-bar>
   </div>
 </template>
 
@@ -47,3 +42,7 @@
     }),
   }
 </script>
+
+<style>
+
+</style>

@@ -1,49 +1,29 @@
 <template>
   <div id="app">
+    <v-app>
+    <app-bar />
+    <v-content>
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> | 
       <router-link to="/nfl/year">NFL</router-link> | 
       <router-link to="/nba/year">NBA</router-link> |
-      <router-link to="/nhl/year">NHL</router-link> | 
-      <v-menu offset-y>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Dropdown
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-          v-for="(item, index) in items"
-          :key="index"
-        >
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+      <router-link to="/nhl/year">NHL</router-link> 
     </div>
     <router-view/>
+    </v-content>
+    </v-app>
   </div>
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      items: [
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me 2' },
-      ],
-      offset: true,
-    }),
-  }
+import AppBar from './components/AppBar.vue'
+export default {
+  components: { AppBar },
+
+}
 </script>
+
 
 <style>
 #app {
