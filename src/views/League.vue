@@ -1,11 +1,11 @@
 <template>
   <div>
-      <b-container>
-            <b-row no-gutters>
-                <b-col no-gutters><side-menu /></b-col>
-                <b-col cols="9"><router-view :key="$route.fullPath"/></b-col>
-            </b-row>
-        </b-container>
+        <v-container>
+          <v-row>
+            <side-menu />
+          </v-row>
+          <v-row><router-view :key="$route.fullPath"/></v-row>
+        </v-container>
   </div>
 </template>
 

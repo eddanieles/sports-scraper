@@ -1,11 +1,10 @@
 <template>
     <div>
-        <b-button-group vertical>
-            <b-button><router-link :to="`/${this.$route.params.league}/year`">Year</router-link></b-button>
-            <b-button><router-link :to="`/${this.$route.params.league}/team`">Team</router-link></b-button>
-            <b-button><router-link :to="`/${this.$route.params.league}/player`">Player</router-link></b-button>
-            <b-button><router-link :to="`/${this.$route.params.league}/position`">Position</router-link></b-button>
-        </b-button-group>
+        <v-btn><router-link :to="`/${this.$route.params.league}/year`">Year</router-link></v-btn>
+        <v-btn><router-link :to="`/${this.$route.params.league}/team`">Team</router-link></v-btn>
+        <v-btn><router-link :to="`/${this.$route.params.league}/player`">Player</router-link></v-btn>
+        <v-btn><router-link :to="`/${this.$route.params.league}/position`">Position</router-link></v-btn>
+        <v-divider></v-divider>
     </div>
 </template>
 
