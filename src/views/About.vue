@@ -21,7 +21,28 @@
           <button>Submit</button>
         </form>
 
-        <table id="zigzagTable"></table>
+        <v-simple-table>
+          <template v-slot:default>
+            <!-- <thead>
+              <tr>
+                <th class="text-left">
+                  Name
+                </th>
+                <th class="text-left">
+                  Calories
+                </th>
+              </tr>
+            </thead> -->
+            <tbody>
+              <tr
+                v-for="row in matrix"
+                :key="row+index"
+              >
+                <td v-for="column in row" :key="column+index">{{column}}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
       </b-tab>
       <b-tab title="Disabled" disabled><p>I'm a disabled tab!</p></b-tab>
     </b-tabs>
@@ -46,7 +67,8 @@
         xPosition: '',
         yPosition: '',
         rows: 0,
-        columns: 0
+        columns: 0,
+        matrix: []
       }
     },
     computed: {
@@ -64,43 +86,33 @@
       },
       createTable() {
         const that = this;
-        let matrix = []
         for (let rowIndex = 0; rowIndex < that.rows; rowIndex++) {
           let currentRow = []
-          // console.log(currentRow)
-          let r = document.getElementById("zigzagTable").insertRow(rowIndex)
 
           for (let columnIndex = 0; columnIndex < that.columns; columnIndex++) {
-            let c = r.insertCell(columnIndex)
 
             if (columnIndex == 0) {
               // calculate values for first row
               currentRow.push(rowIndex + 1);
-              c.innerHTML = rowIndex + 1;
             } else if (rowIndex == 0) {
               // calculate columns for the first row
               if (columnIndex % 2 == 0) {
                 currentRow.push(that.rows * columnIndex + 1)
-                c.innerHTML = that.rows * columnIndex + 1
               } else {
                 currentRow.push(that.rows * (columnIndex + 1))
-                c.innerHTML = that.rows * (columnIndex + 1)
               }
             } else {
               // calculate rest of the cells
               if (columnIndex % 2 == 0) {
-                currentRow.push(matrix[rowIndex - 1][columnIndex] + 1)
-                c.innerHTML = matrix[rowIndex - 1][columnIndex] + 1
+                currentRow.push(that.matrix[rowIndex - 1][columnIndex] + 1)
               } else {
-                currentRow.push(matrix[rowIndex - 1][columnIndex] - 1)
-                c.innerHTML = matrix[rowIndex - 1][columnIndex] - 1
+                currentRow.push(that.matrix[rowIndex - 1][columnIndex] - 1)
               }
             }
             
           }
-          matrix.push(currentRow)
+          that.matrix.push(currentRow)
         }
-        console.log('matrix', matrix)
       }
     },
     mounted() {
