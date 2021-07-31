@@ -44,6 +44,20 @@
           </template>
         </v-simple-table>
       </b-tab>
+      <b-tab title="Swim" active>
+        <div>
+          {{times.women}}
+        </div>
+        <div>
+          {{times.men}}
+        </div>
+        <br>
+        <div v-for="time in bestTimes()" :key="time.time">
+          <h3>Time: {{time.time}}</h3>
+          <p>{{time.strokes}}</p>
+          <p v-for="swimmer in time.swimmers" :key="swimmer.time">{{swimmer}}</p>
+        </div>
+      </b-tab>
       <b-tab title="Disabled" disabled><p>I'm a disabled tab!</p></b-tab>
     </b-tabs>
     
@@ -68,7 +82,53 @@
         yPosition: '',
         rows: 0,
         columns: 0,
-        matrix: []
+        matrix: [],
+        times: {
+          women: [
+            {
+              swimmer: "Torri Huske",
+              time: 55.73,
+              stroke: "fly"  
+            },
+            {
+              swimmer: "Abbey Weitzeil",
+              time: 53.23,
+              stroke: "free"  
+            },
+            {
+              swimmer: "Jacoby Lydia",
+              time: 64.95,
+              stroke: "breast"
+            },
+            {
+              swimmer: "Regan Smith",
+              time: 58.05,
+              stroke: "back"
+            }
+          ],
+          men: [
+            {
+              swimmer: "Calaeb Dressel",
+              time: 49.45,
+              stroke: "fly"
+            },
+            {
+              swimmer: "Calaeb Dressel",
+              time: 47.02,
+              stroke: "free" 
+            },
+            {
+              swimmer: "Micheal Andrew",
+              time: 58.84,
+              stroke: "breast"
+            },
+            {
+              swimmer: "Ryan Murphy",
+              time: 52.19,
+              stroke: "back"
+            }
+          ]
+        }
       }
     },
     computed: {
@@ -83,6 +143,38 @@
       mousemove(event) {
         this.xPosition = event.clientX;
         this.yPosition = event.clientY;
+      },
+      bestTimes() {
+        const wTimes = this.times.women;
+        const mTimes = this.times.men;
+        let combos = [];
+        for(let i=0; i<wTimes.length; i++) {
+          
+          for(let j=0; j<wTimes.length; j++) {
+            let strokes = [];
+            if(j>i) {
+              
+              strokes.push(wTimes[i].stroke)
+              strokes.push(wTimes[j].stroke)
+              
+              let time = wTimes[i].time + wTimes[j].time
+              let swimmers = [wTimes[i], wTimes[j]]
+              combos.push({time, strokes, swimmers})
+            }
+          }
+        }
+
+        for(let k=0; k<combos.length; k++) {
+          for (let m=0; m<mTimes.length; m++) {
+            if(!combos[k].strokes.includes(mTimes[m].stroke)) {
+                combos[k].time += mTimes[m].time
+                combos[k].strokes.push(mTimes[m].stroke)
+                combos[k].swimmers.push(mTimes[m])
+            }           
+          }
+        }
+
+        return combos.sort((a,b) => a.time - b.time);
       },
       createTable() {
         const that = this;
