@@ -7,14 +7,14 @@
       content-class="mt-3"
       vertical>
       <b-tab title="First" active><p>I'm the first tab</p></b-tab>
-      <b-tab title="Second">
+      <b-tab title="Spinner">
         <div class="h-96 bg-purple-100 flex justify-center items-center">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-10 w-10 text-black animate-spin">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg>
         </div>
       </b-tab>
-      <b-tab title="Row and Columns" active>
+      <b-tab title="Zig Zag" active>
         <form action="" @submit="createTable()">
           <p>Rows: <input type="text" v-model="rows"></p> 
           <p>Columns: <input type="text" v-model="columns"></p>
@@ -36,9 +36,9 @@
             <tbody>
               <tr
                 v-for="row in matrix"
-                :key="row+index"
+                :key="row"
               >
-                <td v-for="column in row" :key="column+index">{{column}}</td>
+                <td v-for="column in row" :key="column">{{column}}</td>
               </tr>
             </tbody>
           </template>
@@ -85,6 +85,7 @@
         offset: true,
         xPosition: '',
         yPosition: '',
+        matrix: [],
         rows: 0,
         columns: 0,
         times: {
