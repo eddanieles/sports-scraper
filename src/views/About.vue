@@ -14,7 +14,7 @@
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg>
         </div>
       </b-tab>
-      <b-tab title="Third" active>
+      <b-tab title="Row and Columns" active>
         <form action="" @submit="createTable()">
           <p>Rows: <input type="text" v-model="rows"></p> 
           <p>Columns: <input type="text" v-model="columns"></p>
@@ -58,6 +58,11 @@
           <p v-for="swimmer in time.swimmers" :key="swimmer.time">{{swimmer}}</p>
         </div>
       </b-tab>
+      <b-tab title="Walk Matrix" active>
+        <div>
+          {{walkMatrix()}}
+        </div>
+      </b-tab>
       <b-tab title="Disabled" disabled><p>I'm a disabled tab!</p></b-tab>
     </b-tabs>
     
@@ -82,7 +87,6 @@
         yPosition: '',
         rows: 0,
         columns: 0,
-        matrix: [],
         times: {
           women: [
             {
@@ -205,6 +209,77 @@
           }
           that.matrix.push(currentRow)
         }
+      },
+      walkMatrix() {
+        const matrix = [
+          [0, 1, 2, 3],
+          [11, 12, 13, 4],
+          [10, 15, 14, 5],
+          [9, 8, 7, 6],
+        ];
+
+        const result = [];
+        const rowCount = matrix.length;
+        const columnCount = matrix[0].length;
+        let startRow = 0;
+        let endRow = rowCount - 1;
+        let startColumn = 0;
+        let endColumn = columnCount - 1;
+
+        while(endRow >= startRow && endColumn >= startColumn) {
+           for (let column = startColumn; column <= endColumn; column++) {
+              // Add the item to result in order
+              result.push(matrix[startRow][column]);
+            }
+
+            startRow++
+
+            for (let row=startRow; row <= endRow; row++) {
+              result.push(matrix[row][endColumn])
+            }
+
+            endColumn--
+
+            if (endRow >= startRow) {
+              for (let column = endColumn; column >= startColumn; column--) {
+                result.push(matrix[endRow][column])
+              }
+            }
+            
+            endRow--
+
+            if (endColumn >= startColumn) {
+              for (let row=endRow; row >= startRow; row--)
+              result.push(matrix[row][startColumn])
+            }
+
+            startColumn++
+
+        }
+
+        return result
+
+        // (0, 0)
+        // (0, 1)
+        // (0, 2)
+        // (0, 3)
+        // // startRow++
+        // (1, 3)
+        // (2, 3)
+        // (3, 3)
+        // // endColumn--
+        // (3, 2)
+        // (3, 1)
+        // (3, 0)
+        // // endRow--
+        // (2, 0)
+        // (1, 0)
+
+        // (1, 1)
+        // (1, 2)
+
+        // (2, 2)
+        // (2, 1)
       }
     },
     mounted() {
